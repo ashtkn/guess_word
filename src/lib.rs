@@ -175,7 +175,10 @@ mod tests {
 
     #[test]
     fn test_guess() {
-        let mut game = Game::default();
+        let mut game = Game {
+            answer: "hello".to_string(),
+            ..Game::default()
+        };
         game.answer = "hello".to_string();
         game.guess("world");
         assert_eq!(game.guesses.len(), 1);
@@ -184,8 +187,10 @@ mod tests {
     #[rustfmt::skip]
     #[test]
     fn test_guess_accuracy() {
-        let mut game = Game::default();
-        game.answer = "haste".to_string();
+        let mut game = Game {
+            answer: "haste".to_string(),
+            ..Game::default()
+        };
         game.guess("heart");
 
         let spell_guess = super::WordGuess {
@@ -203,8 +208,10 @@ mod tests {
     #[rustfmt::skip]
     #[test]
     fn test_guess_count_of_letters() {
-        let mut game = Game::default();
-        game.answer = "sleep".to_string();
+        let mut game = Game {
+            answer: "sleep".to_string(),
+            ..Game::default()
+        };
         game.guess("spell");
 
         let spell_guess = super::WordGuess {
@@ -221,8 +228,10 @@ mod tests {
 
     #[test]
     fn test_duplicate_guess() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         game.guess("pasta");
         let (_, result) = game.guess("pasta");
         assert_eq!(result, GuessResult::DuplicateGuess);
@@ -230,16 +239,20 @@ mod tests {
 
     #[test]
     fn test_win_game() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         let (status, _) = game.guess("slump");
         assert_eq!(status, GameStatus::Won);
     }
 
     #[test]
     fn test_incorrect_word() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         let (_, result) = game.guess("slp");
         assert_eq!(result, GuessResult::IncorrectLength);
         let (_, result) = game.guess("slumaaaap");
@@ -248,8 +261,10 @@ mod tests {
 
     #[test]
     fn test_lose_game() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         game.guess("admit");
         game.guess("adorn");
         game.guess("adult");
@@ -261,8 +276,10 @@ mod tests {
 
     #[test]
     fn test_gameover() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         game.guess("slump");
         let (status, result) = game.guess("adept");
         assert_eq!(status, GameStatus::Won);
@@ -271,8 +288,10 @@ mod tests {
 
     #[test]
     fn test_lose_game_with_gameover() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         game.guess("admit");
         game.guess("adorn");
         game.guess("adult");
@@ -286,8 +305,10 @@ mod tests {
 
     #[test]
     fn test_not_in_dictionary() {
-        let mut game = Game::default();
-        game.answer = "slump".to_string();
+        let mut game = Game {
+            answer: "slump".to_string(),
+            ..Game::default()
+        };
         let (status, result) = game.guess("abcde");
         assert_eq!(status, GameStatus::InProgress);
         assert_eq!(result, GuessResult::NotInDictionary);

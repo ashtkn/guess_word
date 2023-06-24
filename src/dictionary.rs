@@ -7,9 +7,15 @@ pub struct Dictionary {
     pub words: HashSet<&'static str>,
 }
 
+impl Default for Dictionary {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Dictionary {
     pub fn new() -> Self {
-        let words: HashSet<&str> = WORDS.split("\n").collect();
+        let words: HashSet<&str> = WORDS.split('\n').collect();
         Self { words }
     }
     pub fn get_random_words(&self) -> String {

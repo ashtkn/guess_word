@@ -8,13 +8,6 @@ use std::collections::HashMap;
 pub const GUESS_LENGTH: usize = 5; // 単語の文字列
 pub const GUESS_MAX: usize = 6; // 推理の試行最大数
 
-pub struct Game {
-    guesses: Vec<WordGuess>,
-    answer: String,
-    game_status: GameStatus,
-    dictonary: Dictionary,
-}
-
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum GuessResult {
     DuplicateGuess,  // 推理単語が重複している
@@ -34,6 +27,13 @@ pub enum GameStatus {
 #[derive(Debug, Clone)]
 pub enum GameError {
     GameNotLostError,
+}
+
+pub struct Game {
+    guesses: Vec<WordGuess>,
+    answer: String,
+    game_status: GameStatus,
+    dictonary: Dictionary,
 }
 
 impl Default for Game {
@@ -63,6 +63,9 @@ impl Game {
         self.dictonary.words.get(word).is_some()
     }
     pub fn guess(&mut self, guess_input: &str) -> (GameStatus, GuessResult) {
+        if self.game_status == GameStatus::Won || self.game_status == GameStatus::Lost {
+            return (self.game_status, GuessResult::GameOver);
+        }
         if guess_input.len() != GUESS_LENGTH {
             return (self.game_status, GuessResult::IncorrectLength);
         }

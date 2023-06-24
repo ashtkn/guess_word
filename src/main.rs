@@ -32,7 +32,6 @@ fn main() {
                     println!("Warning: Not in dictionary.");
                 }
                 GuessResult::Valid => {
-                    println!("");
                     let word_guess = game.guesses().last().unwrap();
                     let result: String = word_guess
                         .letters()

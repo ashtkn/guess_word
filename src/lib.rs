@@ -1,5 +1,8 @@
 pub mod dictionary;
 use dictionary::Dictionary;
+pub mod guess;
+pub use guess::HitAccuracy;
+use guess::{GuessLetter, WordGuess};
 use std::collections::HashMap;
 
 pub const GUESS_LENGTH: usize = 5; // 単語の文字列
@@ -10,24 +13,6 @@ pub struct Game {
     answer: String,
     game_status: GameStatus,
     dictonary: Dictionary,
-}
-
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd)]
-pub enum HitAccuracy {
-    InRightPlace, // 位置が正しい
-    InWord,       // 単語に含まれている
-    NotInWord,    // 単語に含まれていない
-}
-
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct GuessLetter {
-    pub letter: char,
-    pub accuracy: HitAccuracy,
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct WordGuess {
-    pub letters: Vec<GuessLetter>,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -49,15 +34,6 @@ pub enum GameStatus {
 #[derive(Debug, Clone)]
 pub enum GameError {
     GameNotLostError,
-}
-
-impl WordGuess {
-    pub fn word(&self) -> String {
-        self.letters.as_slice().iter().map(|gl| gl.letter).collect()
-    }
-    pub fn letters(&self) -> &[GuessLetter] {
-        self.letters.as_slice()
-    }
 }
 
 impl Default for Game {

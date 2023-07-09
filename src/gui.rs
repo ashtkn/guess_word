@@ -64,7 +64,7 @@ impl GuessWord {
     fn create_guess_result_widget(&mut self) {
         let word = self.game.guesses().last().unwrap();
         let mut widget = GuessResultWidget::new();
-        widget.letters = word.letters().iter().map(|l| l.clone()).collect();
+        widget.letters = word.letters().to_vec();
         self.state.guesses.push(widget);
     }
 }
@@ -143,7 +143,7 @@ impl Application for GuessWord {
         let input = TextInput::new(
             &mut self.state.input,
             "input word...",
-            &mut self.state.input_value,
+            &self.state.input_value,
             Message::InputChanged,
         )
         .padding(15)
